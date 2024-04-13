@@ -1,13 +1,11 @@
 package com.example.mobile_scan_qr
 
-import androidx.annotation.NonNull
-
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 
-/** MobileScanQrPlugin */
-class MobileScanQrPlugin : FlutterPlugin, ActivityAware {
+/** MobileScannerPlugin */
+class MobileScannerPlugin : FlutterPlugin, ActivityAware {
     private var activityPluginBinding: ActivityPluginBinding? = null
     private var flutterPluginBinding: FlutterPlugin.FlutterPluginBinding? = null
     private var methodCallHandler: MobileScannerHandler? = null
@@ -49,4 +47,3 @@ class MobileScanQrPlugin : FlutterPlugin, ActivityAware {
         onDetachedFromActivity()
     }
 }
-

@@ -24,4 +24,5 @@ flutter:
         package: com.example.mobile_scan_qr
         pluginClass: MobileScanQrPlugin
       ios:
-        pluginClass: MobileScanQrPlugin
+        pluginClass: MobileScannerPlugin
+        # pluginClass: MobileScanQrPlugin
