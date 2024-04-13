@@ -1,61 +1,112 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-
-import 'package:flutter/services.dart';
 import 'package:mobile_scan_qr/mobile_scan_qr.dart';
 
+import 'src/barcode_scanner_controller.dart';
+import 'src/barcode_scanner_listview.dart';
+import 'src/barcode_scanner_pageview.dart';
+import 'src/barcode_scanner_returning_image.dart';
+import 'src/barcode_scanner_window.dart';
+import 'src/barcode_scanner_zoom.dart';
+import 'src/mobile_scanner_overlay.dart';
+
 void main() {
-  runApp(const MyApp());
+  runApp(
+    const MaterialApp(
+      title: 'Mobile Scan Qr Example',
+      home: MyHome(),
+    ),
+  );
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
-  final _mobileScanQrPlugin = MethodChannelMobileScanQr();
-
-  @override
-  void initState() {
-    super.initState();
-    initPlatformState();
-  }
-
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    // We also handle the message potentially returning null.
-    try {
-      platformVersion = await _mobileScanQrPlugin.getPlatformVersion() ??
-          'Unknown platform version';
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    setState(() {
-      _platformVersion = platformVersion;
-    });
-  }
+class MyHome extends StatelessWidget {
+  const MyHome({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
-        ),
-        body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+    return Scaffold(
+      appBar: AppBar(title: const Text('Mobile Scanner Example')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            FutureBuilder(
+                future: MethodChannelMobileScanQr().getPlatformVersion(),
+                builder: (c, s) {
+                  return Text('Running on: ${s.data}\n');
+                }),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const BarcodeScannerListView(),
+                  ),
+                );
+              },
+              child: const Text('MobileScanner with ListView'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const BarcodeScannerWithController(),
+                  ),
+                );
+              },
+              child: const Text('MobileScanner with Controller'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const BarcodeScannerWithScanWindow(),
+                  ),
+                );
+              },
+              child: const Text('MobileScanner with ScanWindow'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const BarcodeScannerReturningImage(),
+                  ),
+                );
+              },
+              child: const Text(
+                'MobileScanner with Controller (returning image)',
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const BarcodeScannerWithZoom(),
+                  ),
+                );
+              },
+              child: const Text('MobileScanner with zoom slider'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const BarcodeScannerPageView(),
+                  ),
+                );
+              },
+              child: const Text('MobileScanner pageView'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => BarcodeScannerWithOverlay(),
+                  ),
+                );
+              },
+              child: const Text('MobileScanner with Overlay'),
+            ),
+          ],
         ),
       ),
     );
