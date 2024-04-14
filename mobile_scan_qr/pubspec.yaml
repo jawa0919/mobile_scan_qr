@@ -1,0 +1,32 @@
+name: mobile_scan_qr
+description: A new Flutter package project.
+version: 0.0.1
+homepage:
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=3.3.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  mobile_scan_qr_android:
+    path: ../mobile_scan_qr_android/
+  mobile_scan_qr_ios:
+    path: ../mobile_scan_qr_ios/
+  mobile_scan_qr_platform_interface:
+    path: ../mobile_scan_qr_platform_interface/
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+  plugin_platform_interface: ^2.1.7
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        default_package: mobile_scan_qr_android
+      ios:
+        default_package: mobile_scan_qr_ios
